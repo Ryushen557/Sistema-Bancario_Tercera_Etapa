@@ -29,7 +29,7 @@ Iniciar la Aplicación
 
 npm run dev
 
-La aplicación estará disponible en http://localhost:3000/index
+La aplicación estará disponible en http://localhost:3000/
 
 Funcionalidades
 
