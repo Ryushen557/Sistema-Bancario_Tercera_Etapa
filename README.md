@@ -9,12 +9,15 @@ npm (Node Package Manager)
 Instalación
 Clonar el Repositorio
 
-git clone https://github.com/Ryushen557/Sistema-Bancario-Segunda-Etapa.git
-cd Sistema-Bancario-Segunda-Etapa
+git clone https://github.com/Ryushen557/Sistema-Bancario-Tercera-Etapa.git
+cd Sistema-Bancario-Tercera-Etapa
 
 Instalar Dependencias
 
 npm install
+npm mysql2
+npm bcrypt jsonwebtoken dotenv
+npm install knex
 
 Configurar la Base de Datos
 
