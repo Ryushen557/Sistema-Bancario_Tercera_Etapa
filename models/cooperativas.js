@@ -1,4 +1,4 @@
-const pool = require('../conexion');
+const pool = require('../config/db');
 
 class CooperativaModel {
     static añadirCooperativa(cooperativa) {

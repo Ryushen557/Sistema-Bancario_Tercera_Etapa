@@ -1,42 +1,25 @@
-const pool = require('../conexion');
+const pool = require('../config/db');
 
 class UsuariosModel {
-    static obtenerTodosLosUsuarios() {
-        return new Promise((resolve, reject) => {
-            pool.query('SELECT * FROM usuarios', (error, results) => {
-                if (error) {
-                    return reject(error);
-                }
-                resolve(results);
-            });
-        });
+    static async obtenerUsuarioPorEmail(email) {
+        const query = 'SELECT * FROM usuarios WHERE email = ?';
+        const [rows] = await pool.execute(query, [email]);
+        console.log('Resultado de la consulta:', rows); // Añadir log para ver el resultado de la consulta
+        return rows[0]; // Asegurarse de retornar el primer resultado
     }
 
-    static añadirUsuario(usuario) {
-        return new Promise((resolve, reject) => {
-            const { nombre, email, contraseña, rol } = usuario;
-            const contraseñaCriptada = bcrypt.hashSync(contraseña, 10);
-            pool.query('INSERT INTO usuarios (nombre, email, contraseña, rol) VALUES (?, ?, ?, ?)', [nombre, email, contraseñaCriptada, rol], (error, results) => {
-                if (error) {
-                    return reject(error);
-                }
-                resolve(results);
-            });
-        });
+
+
+    static async obtenerTodosLosUsuarios() {
+        const query = 'SELECT * FROM usuarios';
+        const [rows] = await pool.execute(query);
+        return rows;
     }
 
-    static autenticarUsuario(usuario, contraseña) {
-        return new Promise((resolve, reject) => {
-            pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario], (error, results) => {
-                if (error) {
-                    return reject(error);
-                }
-                if (results.length === 0 || !bcrypt.compareSync(contraseña, results[0].contraseña)) {
-                    return reject(new Error('Usuario o contraseña incorrectos'));
-                }
-                resolve(results[0]);
-            });
-        });
+    static async añadirUsuario(usuario) {
+        const query = 'INSERT INTO usuarios (nombre, email, contraseña, rol) VALUES (?, ?, ?, ?)';
+        const { nombre, email, password, role } = usuario;
+        await pool.execute(query, [nombre, email, password, role]);
     }
 
     static editarUsuario(id, usuario) {
